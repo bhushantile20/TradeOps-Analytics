@@ -10,7 +10,7 @@ import joblib
 
 # Page configuration
 st.set_page_config(
-    page_title="TradeOps Analytics – BTC Forecasting",
+    page_title="TradeOps-Analytics",
     layout="wide",
     initial_sidebar_state="expanded",
     page_icon="📈"
@@ -127,7 +127,7 @@ with st.sidebar:
     <div style='padding: 16px 0;'>
         <div style='display:flex; align-items:center; gap: 10px; margin-bottom:6px;'>
             <svg width="22" height="22" fill="#3B82F6" viewBox="0 0 20 20"><path d="M2 11a1 1 0 011-1h2a1 1 0 011 1v5a1 1 0 01-1 1H3a1 1 0 01-1-1v-5zM8 7a1 1 0 011-1h2a1 1 0 011 1v9a1 1 0 01-1 1H9a1 1 0 01-1-1V7zM14 4a1 1 0 011-1h2a1 1 0 011 1v12a1 1 0 01-1 1h-2a1 1 0 01-1-1V4z"/></svg>
-            <span style='font-size:18px; font-weight:800; color:#F1F5F9;'>TradeOps Analytics</span>
+            <span style='font-size:18px; font-weight:800; color:#F1F5F9;'>TradeOps-Analytics</span>
         </div>
         <div style='font-size:10px; color:#475569; text-transform:uppercase; letter-spacing:0.12em; padding-left:4px;'>● LIVE SYSTEM</div>
     </div>
