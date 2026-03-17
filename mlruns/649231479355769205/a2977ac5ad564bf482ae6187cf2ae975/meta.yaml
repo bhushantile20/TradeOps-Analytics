@@ -1,0 +1,14 @@
+artifact_uri: file:///E:/final/projects/btc_forecasting/mlruns/649231479355769205/a2977ac5ad564bf482ae6187cf2ae975/artifacts
+end_time: 1773772976004
+entry_point_name: ''
+experiment_id: '649231479355769205'
+lifecycle_stage: active
+run_id: a2977ac5ad564bf482ae6187cf2ae975
+run_name: LinearRegression
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1773772970856
+status: 3
+tags: []
+user_id: bhush

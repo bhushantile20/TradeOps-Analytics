@@ -1,0 +1,7 @@
+artifact_location: file:///E:/final/projects/btc_forecasting/mlruns/649231479355769205
+creation_time: 1773772952713
+experiment_id: '649231479355769205'
+last_update_time: 1773772952713
+lifecycle_stage: active
+name: btc_forecasting_models
+workspace: default

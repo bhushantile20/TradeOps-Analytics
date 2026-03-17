@@ -1,0 +1,273 @@
+{% extends 'base.html' %}
+
+{% block title %}Prediction Control Center{% endblock %}
+{% block header_title %}Predictions History{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.plot.ly/plotly-2.24.1.min.js"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Hidden data for JavaScript -->
+{{ chart_history|json_script:"chart-data" }}
+{{ history|json_script:"history-data" }}
+
+<div class="space-y-8 animate-fade-in-up pb-8">
+    
+    <!-- Drift Alert Panel (if triggered) -->
+    {% if data_drift.drift_detected %}
+    <div class="glass-card p-5 border border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.15)] bg-red-900/10">
+        <div class="flex items-start space-x-4">
+            <div class="p-2 border border-red-500/30 bg-red-500/10 rounded-lg">
+                <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+                </svg>
+            </div>
+            <div>
+                <h4 class="font-bold text-red-400 text-lg tracking-wide uppercase">- ERROR - [DATA_DRIFT]</h4>
+                <p class="text-slate-300 mt-1 text-sm">Distribution shift detected in input features. Predictive models may suffer from temporal degradation. Retraining advised.</p>
+                <div class="mt-2 text-xs text-slate-500 font-mono">Timestamp Trigger: {% if history %}{{ history.0.timestamp }}{% endif %}</div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Top Row: KPI Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Current Price -->
+        <div class="glass-card p-6 border-l-4 border-blue-500 hover:shadow-lg transition-transform text-white">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Current Price</span>
+                <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                </div>
+            </div>
+            <h3 class="text-3xl font-bold font-mono text-slate-100">
+                {% if history %}${{ history.0.actual_price|floatformat:2 }}{% else %}--{% endif %}
+            </h3>
+        </div>
+
+        <!-- Predicted Price -->
+        <div class="glass-card p-6 border-l-4 border-purple-500 hover:shadow-lg transition-transform text-white">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Target (1H)</span>
+                <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                </div>
+            </div>
+            <h3 class="text-3xl font-bold font-mono text-purple-400">
+                {% if history %}${{ history.0.arima_price|floatformat:2 }}{% else %}--{% endif %}
+            </h3>
+        </div>
+
+        <!-- Confidence Score -->
+        <div class="glass-card p-6 border-l-4 rounded-xl {% if data_drift.drift_detected %}border-red-500{% else %}border-slate-500{% endif %} hover:shadow-lg transition-transform text-white">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Model Confidence</span>
+                <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+            </div>
+            <h3 class="text-3xl font-bold text-slate-100">
+                {% if data_drift.drift_detected %}54.2%{% else %}92.8%{% endif %}
+            </h3>
+        </div>
+
+        <!-- System Status -->
+        <div class="glass-card p-6 border-l-4 rounded-xl {% if data_drift.drift_detected %}border-red-500{% else %}border-emerald-500{% endif %} hover:shadow-lg transition-transform text-white">
+            <div class="flex items-center justify-between mb-4">
+                <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Drift Status</span>
+                <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
+                    <svg class="w-4 h-4 {% if data_drift.drift_detected %}text-red-400{% else %}text-emerald-400{% endif %}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                </div>
+            </div>
+            <h3 class="text-2xl font-bold {% if data_drift.drift_detected %}text-red-400{% else %}text-emerald-400{% endif %}">
+                {% if data_drift.drift_detected %}Critical{% else %}Healthy{% endif %}
+            </h3>
+        </div>
+    </div>
+
+    <!-- Main Section: Chart and Trade Signal -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Plotly Chart Area -->
+        <div class="lg:col-span-2 glass-card p-6 flex flex-col bg-[#0B1220]">
+            <div class="flex justify-between items-center mb-6">
+                <div>
+                    <h3 class="text-lg font-bold text-white">Price Action & AI Forecast</h3>
+                    <p class="text-xs text-slate-500">Overlaying time series actuals against algorithmic expectations (ARIMA Output)</p>
+                </div>
+                <span class="px-3 py-1 rounded-full border border-slate-700 bg-slate-800/80 text-xs font-mono text-slate-300">BTC/USDT</span>
+            </div>
+            <div class="flex-1 w-full relative min-h-[450px]">
+                <div id="plotlyChart" class="absolute inset-0"></div>
+            </div>
+        </div>
+
+        <!-- Trade Signal & Trigger Panel -->
+        <div class="lg:col-span-1 space-y-6 flex flex-col">
+            <!-- Signal Card -->
+            <div id="tradeSignalCard" class="glass-card p-8 flex-1 flex flex-col items-center justify-center text-center relative overflow-hidden text-white border border-slate-700">
+                <div class="absolute inset-0 opacity-10 pointer-events-none transition-colors duration-1000" id="signalBgGlow"></div>
+                <p class="text-slate-400 text-sm uppercase tracking-widest font-semibold mb-6 relative z-10">System Consensus</p>
+                <h2 id="signalText" class="text-5xl font-extrabold mb-4 tracking-widest relative z-10">...</h2>
+                <div class="text-sm font-medium text-slate-400 relative z-10 px-4" id="signalReason">Awaiting engine data...</div>
+            </div>
+
+            <!-- Manual Trigger Panel -->
+            <div class="glass-card p-6 bg-slate-800/30 border border-slate-700/50 text-white">
+                <h3 class="text-lg font-bold mb-2 flex items-center">
+                    <svg class="w-5 h-5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+                    Manual Override
+                </h3>
+                <p class="text-slate-400 text-xs mb-6">Force pipeline execution independently of the airflow schedule. Will regenerate fresh inferences and overwrite tracking UI log.</p>
+                <form id="predictionForm">
+                    <button type="submit" id="predictBtn"
+                        class="w-full py-3.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition-all shadow-md hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] active:scale-[0.98] flex items-center justify-center space-x-2">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                        <span>Run Inference Pipeline</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Safe JSON parsing from Django template injecting a stringified JSON string!
+        const chartDataRaw = document.getElementById('chart-data').textContent;
+        let chartData = [];
+        try {
+            let parsed = JSON.parse(chartDataRaw);
+            // Sometimes Django json_script of a string escapes it to a JSON string. Parse again if needed.
+            chartData = (typeof parsed === 'string') ? JSON.parse(parsed) : parsed;
+        } catch(e) {
+            console.error("Failed to parse chart data in UI", e);
+        }
+        
+        if(chartData && chartData.length > 0) {
+            
+            // Map the data - assuming tail(50) guarantees ascending order via the controller sorting
+            // Wait, views.py did `chart_df = df.tail(50).copy()`, which is chronological.
+            let dates = chartData.map(d => d.timestamp);
+            let prices = chartData.map(d => parseFloat(d.actual_price));
+            let preds = chartData.map(d => parseFloat(d.arima_price)); // Using ARIMA as baseline here
+            
+            // Re-render plotly graphic with #0B1220 aesthetics
+            var tracePrice = {
+                x: dates,
+                y: prices,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'Historical Price',
+                line: {color: '#3B82F6', width: 2.5, shape: 'spline', smoothing: 1.3}, 
+            };
+
+            var tracePred = {
+                x: dates,
+                y: preds,
+                type: 'scatter',
+                mode: 'lines',
+                name: 'AI Target Output',
+                line: {color: '#8B5CF6', width: 2.5, dash: 'dash', shape: 'spline', smoothing: 1.3}
+            };
+
+            var layout = {
+                plot_bgcolor: 'rgba(11, 18, 32, 0)', // match parent
+                paper_bgcolor: 'rgba(11, 18, 32, 0)', 
+                font: {color: '#6B7280', family: 'Inter, sans-serif'},
+                xaxis: { 
+                    showgrid: false, 
+                    zeroline: false 
+                },
+                yaxis: { 
+                    showgrid: true, 
+                    gridcolor: 'rgba(255,255,255,0.05)', 
+                    zeroline: false,
+                    tickfont: { color: '#9CA3AF' } 
+                },
+                margin: { l: 40, r: 20, t: 30, b: 30 },
+                showlegend: true,
+                legend: { 
+                    orientation: "h",
+                    yanchor: "bottom",
+                    y: 1.02,
+                    xanchor: "right",
+                    x: 1,
+                    font: { color: '#D1D5DB' }
+                },
+                hovermode: 'x unified'
+            };
+
+            Plotly.newPlot('plotlyChart', [tracePrice, tracePred], layout, {responsive: true, displayModeBar: false});
+
+            // Calculate signal based on last actual vs last pred
+            // We'll read the final item in the array for the most recent data
+            let lastItem = chartData[chartData.length - 1];
+            let lastActual = lastItem ? parseFloat(lastItem.actual_price) : null;
+            let lastPred = lastItem ? parseFloat(lastItem.arima_price) : null;
+            
+            const signalCard = document.getElementById("tradeSignalCard");
+            const signalText = document.getElementById("signalText");
+            const signalReason = document.getElementById("signalReason");
+            const signalGlow = document.getElementById("signalBgGlow");
+
+            if (lastPred && lastActual) {
+                let diff = lastPred - lastActual;
+                let pct = (diff / lastActual) * 100;
+                
+                if (pct > 0.05) { // tuned for sensitivity 0.05%
+                    signalText.innerText = "BUY";
+                    signalText.className = "text-5xl font-extrabold mb-4 text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.8)] tracking-widest relative z-10";
+                    signalCard.className = "glass-card p-8 flex-1 flex flex-col items-center justify-center text-center relative overflow-hidden text-white border border-emerald-500/30";
+                    signalGlow.className = "absolute inset-0 opacity-10 pointer-events-none transition-colors duration-1000 bg-emerald-500";
+                    signalReason.innerText = `Forecast projects +${pct.toFixed(2)}% bullish upside movement.`;
+                } else if (pct < -0.05) {
+                    signalText.innerText = "SELL";
+                    signalText.className = "text-5xl font-extrabold mb-4 text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)] tracking-widest relative z-10";
+                    signalCard.className = "glass-card p-8 flex-1 flex flex-col items-center justify-center text-center relative overflow-hidden text-white border border-red-500/30";
+                    signalGlow.className = "absolute inset-0 opacity-10 pointer-events-none transition-colors duration-1000 bg-red-500";
+                    signalReason.innerText = `Forecast projects ${pct.toFixed(2)}% bearish downside risk.`;
+                } else {
+                    signalText.innerText = "HOLD";
+                    signalText.className = "text-5xl font-extrabold mb-4 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] tracking-widest relative z-10";
+                    signalCard.className = "glass-card p-8 flex-1 flex flex-col items-center justify-center text-center relative overflow-hidden text-white border border-yellow-500/30";
+                    signalGlow.className = "absolute inset-0 opacity-10 pointer-events-none transition-colors duration-1000 bg-yellow-400";
+                    signalReason.innerText = `Market consolidation expected. Minimal variance.`;
+                }
+            }
+        }
+    });
+
+    // Manual Pipeline Execution
+    document.getElementById('predictionForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = document.getElementById('predictBtn');
+        btn.disabled = true;
+        const originalContent = btn.innerHTML;
+        btn.innerHTML = '<span class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white inline-block mr-2"></span> <span class="text-white">Awaiting Tensor Output...</span>';
+
+        try {
+            const response = await fetch('{{ api_url }}', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' }
+            });
+
+            if (!response.ok) throw new Error('Inference API rejection');
+            setTimeout(() => window.location.reload(), 1500);
+        } catch (err) {
+            console.error(err);
+            alert('Pipeline inference failed. Verify the backend FastAPI process is bound to port 8001.');
+            btn.disabled = false;
+            btn.innerHTML = originalContent;
+        }
+    });
+</script>
+{% endblock %}

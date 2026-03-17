@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>MLflow Experiment Logs</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 40px;
+            background: #fdfdfd;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+            font-size: 0.9em;
+        }
+
+        th {
+            background: #4caf50;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>MLflow Tracking Results</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Start Time</th>
+                    <th>Run Name</th>
+                    <th>Model Type</th>
+                    <th>RMSE</th>
+                    <th>Accuracy</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for run in runs %}
+                <tr>
+                    <td>{{ run.start_time }}</td>
+                    <td>{{ run.run_name }}</td>
+                    <td>{{ run.params.model_type }}</td>
+                    <td>{{ run.metrics.rmse|floatformat:6 }}</td>
+                    <td>{{ run.metrics.direction_accuracy|floatformat:4 }}</td>
+                    <td>{{ run.status }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

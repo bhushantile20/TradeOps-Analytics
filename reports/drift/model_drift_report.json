@@ -1,0 +1,11 @@
+{
+    "timestamp": "2026-03-06T11:47:15.610433",
+    "drift_detected": false,
+    "metrics": {
+        "current_rmse": 0.0070529453471079116,
+        "baseline_rmse": 0.007004790597989703,
+        "current_accuracy": 0.4717948717948718,
+        "baseline_accuracy": 0.252991452991453
+    },
+    "reasons": []
+}

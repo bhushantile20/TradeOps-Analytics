@@ -1,0 +1,10 @@
+artifact_location: file:///E:/final/projects/btc_forecasting/mlruns/649231479355769205/models/m-78a2a1460e274a75b63f2f954a93c797/artifacts
+creation_timestamp: 1773772971231
+experiment_id: '649231479355769205'
+last_updated_timestamp: 1773772975869
+model_id: m-78a2a1460e274a75b63f2f954a93c797
+model_type: null
+name: model
+source_run_id: a2977ac5ad564bf482ae6187cf2ae975
+status: 2
+status_message: null

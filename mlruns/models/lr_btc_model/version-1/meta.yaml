@@ -1,0 +1,16 @@
+creation_timestamp: 1773772975890
+current_stage: Staging
+deployment_job_state: null
+description: null
+last_updated_timestamp: 1773772975971
+model_id: m-78a2a1460e274a75b63f2f954a93c797
+name: lr_btc_model
+run_id: a2977ac5ad564bf482ae6187cf2ae975
+run_link: null
+source: models:/m-78a2a1460e274a75b63f2f954a93c797
+status: READY
+status_message: null
+storage_location: file:///E:/final/projects/btc_forecasting/mlruns/649231479355769205/models/m-78a2a1460e274a75b63f2f954a93c797/artifacts
+user_id: null
+version: 1
+workspace: default

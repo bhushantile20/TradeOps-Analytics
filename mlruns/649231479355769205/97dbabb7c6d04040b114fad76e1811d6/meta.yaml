@@ -1,0 +1,14 @@
+artifact_uri: file:///E:/final/projects/btc_forecasting/mlruns/649231479355769205/97dbabb7c6d04040b114fad76e1811d6/artifacts
+end_time: 1773772970830
+entry_point_name: ''
+experiment_id: '649231479355769205'
+lifecycle_stage: active
+run_id: 97dbabb7c6d04040b114fad76e1811d6
+run_name: ARIMA
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1773772952945
+status: 3
+tags: []
+user_id: bhush

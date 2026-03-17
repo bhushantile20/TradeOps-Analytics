@@ -1,0 +1,30 @@
+{% for run in runs %}
+<tr class="hover:bg-slate-800/30 transition-all group">
+    <td class="py-4 px-4 text-slate-400 text-sm italic">{{ run.start_time }}</td>
+    <td class="py-4 px-4 font-semibold text-blue-400">{{ run.run_name }}</td>
+    <td class="py-4 px-4">
+        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-tighter bg-slate-700">
+            {{ run.model_type|default:"N/A" }}
+        </span>
+    </td>
+    <td class="py-4 px-4 font-mono text-sm">{{ run.rmse|floatformat:6 }}</td>
+    <td class="py-4 px-4">
+        <div class="flex items-center space-x-2">
+            <span class="text-sm">{{ run.accuracy|default:0|floatformat:1 }}%</span>
+            <div class="w-12 bg-slate-800 h-1.5 rounded-full overflow-hidden">
+                <div class="bg-green-500 h-full" style="width: {{ run.accuracy|default:0|floatformat:0 }}%">
+                </div>
+            </div>
+        </div>
+    </td>
+    <td class="py-4 px-4 text-right">
+        <div class="inline-flex items-center px-2 py-1 rounded bg-green-500/10 text-green-500 text-[10px] font-bold">
+            {{ run.status }}
+        </div>
+    </td>
+</tr>
+{% empty %}
+<tr>
+    <td colspan="6" class="py-8 text-center text-slate-500">No MLflow runs detected.</td>
+</tr>
+{% endfor %}
