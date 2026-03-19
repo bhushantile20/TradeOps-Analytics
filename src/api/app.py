@@ -25,10 +25,8 @@ app.add_middleware(
 # Initialize models and loggers
 lr_predictor = Predictor(model_name="lr_btc_model")
 arima_predictor = Predictor(model_name="arima_btc_model")
-# lstm_predictor = Predictor(model_name="lstm_btc_model")
-# rnn_predictor = Predictor(model_name="rnn_btc_model")
-lstm_predictor = None
-rnn_predictor = None
+lstm_predictor = Predictor(model_name="lstm_btc_model")
+rnn_predictor = Predictor(model_name="rnn_btc_model")
 logger = PredictionLogger()
 
 @app.post("/trigger")
@@ -76,8 +74,8 @@ def health_check():
         "status": "healthy", 
         "lr_loaded": lr_predictor.model is not None,
         "arima_loaded": arima_predictor.model is not None,
-        "lstm_loaded": False,
-        "rnn_loaded": False
+        "lstm_loaded": lstm_predictor.model is not None,
+        "rnn_loaded": rnn_predictor.model is not None
     }
 
 @app.get("/price")
@@ -112,11 +110,11 @@ def predict(data: PredictionInput):
     # 2. ARIMA Prediction
     arima_pred = arima_predictor.predict(input_dict) if arima_predictor.model else None
     
-    # 3. LSTM Prediction (Disabled)
-    lstm_pred = None
+    # 3. LSTM Prediction
+    lstm_pred = lstm_predictor.predict(input_dict) if lstm_predictor and lstm_predictor.model else None
     
-    # 4. RNN Prediction (Disabled)
-    rnn_pred = None
+    # 4. RNN Prediction
+    rnn_pred = rnn_predictor.predict(input_dict) if rnn_predictor and rnn_predictor.model else None
     
     # Log predictions with current price (lag_1 is the price used for prediction)
     current_price = input_dict.get('lag_1')

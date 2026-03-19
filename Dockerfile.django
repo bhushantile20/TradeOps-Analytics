@@ -1,0 +1,20 @@
+FROM python:3.12-slim
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y gcc && rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy source code
+COPY ML_Dashboard/ /app/ML_Dashboard/
+COPY reports/ /app/reports/
+COPY logs/ /app/logs/
+
+WORKDIR /app/ML_Dashboard
+EXPOSE 8000
+
+ENV API_BASE_URL=http://fastapi-service:8000
+CMD ["gunicorn", "main_dashboard.wsgi:application", "--bind", "0.0.0.0:8000"]

@@ -139,6 +139,19 @@ with st.sidebar:
         ["📊  Market Overview", "📈  Technical Analysis", "🤖  Model Performance"],
         label_visibility="collapsed"
     )
+    
+    st.markdown("<hr style='border-color:rgba(255,255,255,0.06); margin: 12px 0;'>", unsafe_allow_html=True)
+    
+    # Home Page Link
+    st.markdown("""
+        <a href="http://127.0.0.1:8005/" target="_self" style="text-decoration: none;">
+            <div style="display: flex; align-items: center; gap: 10px; padding: 10px; background-color: rgba(59, 130, 246, 0.1); border-radius: 8px; border: 1px solid rgba(59, 130, 246, 0.3); color: #3B82F6; font-weight: 600; font-size: 14px; transition: all 0.3s ease;">
+                <svg width="18" height="18" fill="currentColor" viewBox="0 0 20 20"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"></path></svg>
+                Back to Home Page
+            </div>
+        </a>
+    """, unsafe_allow_html=True)
+    
     st.markdown("<hr style='border-color:rgba(255,255,255,0.06); margin: 12px 0;'>", unsafe_allow_html=True)
     st.markdown("<div style='font-size:11px; color:#334155; padding: 8px 0;'>Model Version: v2.1.0-prod</div>", unsafe_allow_html=True)
 

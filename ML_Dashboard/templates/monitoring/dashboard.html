@@ -12,13 +12,13 @@
         <!-- SECTION 1: KPI CARDS -->
         <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <!-- Card 1 -->
-            <div class="glass-card p-6 border-l-4 border-blue-500 hover:shadow-lg transition-transform text-white">
+            <div class="clean-card p-6 border border-l-4 border-l-sky-400">
                 <div class="flex flex-col h-full justify-between">
-                    <p class="text-slate-400 text-sm font-medium mb-2">Live BTC Price</p>
-                    <h3 class="text-3xl font-bold text-slate-100" id="kpi-actual">
+                    <p class="text-gray-500 text-sm font-medium mb-2">Live BTC Price</p>
+                    <h3 class="text-3xl font-bold text-gray-900" id="kpi-actual">
                         {% if logs and logs.0.actual_price %}${{ logs.0.actual_price|floatformat:2 }}{% else %}N/A{% endif %}
                     </h3>
-                    <div class="mt-2 text-xs text-blue-400 flex items-center">
+                    <div class="mt-2 text-xs text-sky-500 flex items-center font-medium">
                         <svg class="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                         Real-time Market
                     </div>
@@ -26,43 +26,43 @@
             </div>
 
             <!-- Card 2 -->
-            <div class="glass-card p-6 border-l-4 border-purple-500 hover:shadow-lg transition-transform text-white">
+            <div class="clean-card p-6 border border-l-4 border-l-sky-300">
                 <div class="flex flex-col h-full justify-between">
-                    <p class="text-slate-400 text-sm font-medium mb-2">Predicted Price</p>
-                    <h3 class="text-3xl font-bold text-purple-400" id="kpi-forecast">
+                    <p class="text-gray-500 text-sm font-medium mb-2">Predicted Price</p>
+                    <h3 class="text-3xl font-bold text-sky-500" id="kpi-forecast">
                         Loading...
                     </h3>
-                    <div class="mt-2 text-xs text-purple-300 flex items-center">
+                    <div class="mt-2 text-xs text-sky-400 flex items-center font-medium">
                         <span id="kpi-model-tag">{{ top_performer }} Output</span>
                     </div>
                 </div>
             </div>
 
             <!-- Card 3 -->
-            <div class="glass-card p-6 border-l-4 border-emerald-500 hover:shadow-lg transition-transform text-white">
+            <div class="clean-card p-6 border border-l-4 border-l-green-500">
                 <div class="flex flex-col h-full justify-between">
-                    <p class="text-slate-400 text-sm font-medium mb-2">Best Model</p>
-                    <h3 class="text-2xl font-bold text-emerald-400 uppercase">
+                    <p class="text-gray-500 text-sm font-medium mb-2">Best Model</p>
+                    <h3 class="text-2xl font-bold text-green-600 uppercase">
                         {{ top_performer }}
                     </h3>
-                    <div class="mt-2 text-xs text-emerald-300">
+                    <div class="mt-2 text-xs text-green-500 font-medium">
                         Optimized for lowest RMSE
                     </div>
                 </div>
             </div>
 
             <!-- Card 4 -->
-            <div class="glass-card p-6 border-l-4 {% if data_drift and data_drift.drift_detected %}border-red-500{% else %}border-slate-500{% endif %} hover:shadow-lg transition-transform text-white">
+            <div class="clean-card p-6 border border-l-4 {% if data_drift and data_drift.drift_detected %}border-l-amber-500{% else %}border-l-gray-300{% endif %}">
                 <div class="flex flex-col h-full justify-between">
-                    <p class="text-slate-400 text-sm font-medium mb-2">Drift Status</p>
-                    <h3 class="text-xl font-bold {% if data_drift and data_drift.drift_detected %}text-red-400{% else %}text-slate-300{% endif %}">
+                    <p class="text-gray-500 text-sm font-medium mb-2">Drift Status</p>
+                    <h3 class="text-xl font-bold {% if data_drift and data_drift.drift_detected %}text-amber-600{% else %}text-gray-700{% endif %}">
                         {% if data_drift and data_drift.drift_detected %}
                         DETECTED
                         {% else %}
                         STABLE
                         {% endif %}
                     </h3>
-                    <div class="mt-2 text-xs text-slate-400">
+                    <div class="mt-2 text-xs text-gray-500 font-medium">
                         System Health Monitor
                     </div>
                 </div>
@@ -70,27 +70,26 @@
         </div>
 
         <!-- SECTION 3: TRADE SIGNAL CARD -->
-        <div class="md:col-span-1 glass-card p-6 flex flex-col items-center justify-center relative overflow-hidden text-white" id="signal-card-container">
-            <div class="absolute inset-0 opacity-20 pointer-events-none" id="signal-bg-glow"></div>
-            <p class="text-slate-400 text-sm font-semibold mb-4 uppercase tracking-widest relative z-10">AI Action</p>
-            <div class="text-5xl font-extrabold tracking-tight relative z-10" id="signal-text">...</div>
-            <p class="text-xs text-slate-500 mt-4 text-center px-4 relative z-10" id="signal-desc">Analyzing market momentum...</p>
+        <div class="md:col-span-1 clean-card p-6 flex flex-col items-center justify-center bg-sky-50/30" id="signal-card-container">
+            <p class="text-gray-500 text-xs font-semibold mb-4 uppercase tracking-widest text-center">AI Action</p>
+            <div class="text-5xl font-bold tracking-tight py-2" id="signal-text">...</div>
+            <p class="text-xs text-gray-500 mt-4 text-center px-4" id="signal-desc">Analyzing market momentum...</p>
         </div>
 
     </div>
 
     <!-- MIDDLE SECTION: CHART -->
     <!-- SECTION 2: MODEL VISUALIZATION -->
-    <div class="glass-card flex flex-col overflow-hidden bg-[#F9FAFB] border border-slate-200 shadow-md">
+    <div class="clean-card flex flex-col overflow-hidden">
         <!-- Chart Header -->
-        <div class="px-8 py-5 border-b border-slate-200 flex items-center justify-between bg-white text-slate-900">
+        <div class="px-8 py-5 border-b border-gray-200 flex items-center justify-between bg-white text-gray-900">
             <div>
-                <h3 class="text-lg font-bold">Predictive Model Visualization</h3>
-                <p class="text-sm text-slate-500">Comparing historical actuals against active forecast pathways</p>
+                <h3 class="text-lg font-semibold">Predictive Model Visualization</h3>
+                <p class="text-sm text-gray-500">Comparing historical actuals against active forecast pathways</p>
             </div>
             <div class="flex items-center space-x-3">
-                <span class="text-xs font-semibold text-slate-500 uppercase flex items-center"><span class="w-3 h-3 rounded-full bg-purple-500 inline-block mr-2 shadow-[0_0_8px_rgba(139,92,246,0.5)]"></span> Forecast Target:</span>
-                <select id="modelChartSelector" class="bg-white border border-slate-300 text-sm font-medium rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-slate-800 shadow-sm cursor-pointer">
+                <span class="text-xs font-medium text-gray-500 flex items-center"><span class="w-3 h-3 rounded-full bg-sky-400 inline-block mr-2 shadow-sm"></span> Forecast Target:</span>
+                <select id="modelChartSelector" class="bg-white border border-gray-200 text-sm font-medium rounded-md px-3 py-1.5 focus:outline-none focus:ring-1 focus:ring-sky-400 focus:border-sky-400 text-gray-900 cursor-pointer shadow-sm hover:border-sky-200 transition-colors">
                     <option value="ARIMA" {% if top_performer == 'ARIMA' %}selected{% endif %}>ARIMA Model</option>
                     <option value="LR" {% if top_performer == 'LR' %}selected{% endif %}>Linear Regression</option>
                     <option value="LSTM" {% if top_performer == 'LSTM' %}selected{% endif %}>LSTM Deep Learning</option>
@@ -102,39 +101,39 @@
         <!-- Chart Body -->
         <div class="p-8 pb-4 relative h-[450px]">
             <canvas id="predictionChart"></canvas>
-            <div id="chart-error-banner" class="hidden absolute top-4 inset-x-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded"></div>
+            <div id="chart-error-banner" class="hidden absolute top-4 inset-x-4 bg-red-900/30 border border-red-500/50 text-red-400 px-4 py-3 rounded"></div>
         </div>
     </div>
 
 
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <!-- SECTION 4: MODEL PERFORMANCE -->
-        <div class="glass-card p-8 text-white">
-            <h3 class="text-lg font-bold mb-6 text-slate-100 flex items-center">
-                <svg class="w-5 h-5 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+        <div class="clean-card p-6 text-gray-900">
+            <h3 class="text-lg font-semibold mb-6 flex items-center text-gray-900">
+                <svg class="w-5 h-5 mr-2 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 Engine Performance Matrix
             </h3>
             
-            <div class="overflow-hidden border border-slate-700/50 rounded-xl">
-                <table class="w-full text-left bg-slate-800/20">
-                    <thead class="bg-slate-800/80">
-                        <tr class="text-slate-400 text-xs uppercase tracking-wider">
-                            <th class="py-4 px-6">Model</th>
-                            <th class="py-4 px-6 text-right">RMSE</th>
-                            <th class="py-4 px-6 text-right">MAE</th>
-                            <th class="py-4 px-6 text-center">Status</th>
+            <div class="overflow-hidden border border-gray-200 rounded-lg">
+                <table class="w-full text-left bg-white">
+                    <thead class="bg-gray-50">
+                        <tr class="text-gray-500 text-xs uppercase tracking-wider">
+                            <th class="py-3 px-6 font-semibold">Model</th>
+                            <th class="py-3 px-6 text-right font-semibold">RMSE</th>
+                            <th class="py-3 px-6 text-right font-semibold">MAE</th>
+                            <th class="py-3 px-6 text-center font-semibold">Status</th>
                         </tr>
                     </thead>
-                    <tbody class="divide-y divide-slate-700/50 text-sm">
+                    <tbody class="divide-y divide-gray-200 text-sm">
                         {% for model, metrics in model_metrics.items %}
-                        <tr class="hover:bg-slate-700/30 transition-colors">
-                            <td class="py-4 px-6 font-semibold {% if top_performer|lower == model|lower %}text-emerald-400{% else %}text-slate-300{% endif %} uppercase">
-                                {{ model }} {% if top_performer|lower == model|lower %}<span class="ml-2 text-[10px] bg-emerald-500/20 text-emerald-400 px-2 py-0.5 rounded-full">BEST</span>{% endif %}
+                        <tr class="hover:bg-sky-50 transition-colors">
+                            <td class="py-4 px-6 font-medium {% if top_performer|lower == model|lower %}text-green-600{% else %}text-gray-700{% endif %}">
+                                {{ model }} {% if top_performer|lower == model|lower %}<span class="ml-2 text-[10px] bg-green-100 border border-green-200 text-green-700 px-2 py-0.5 rounded-full font-bold">BEST</span>{% endif %}
                             </td>
-                            <td class="py-4 px-6 text-right font-mono text-slate-300">{{ metrics.rmse|floatformat:2 }}</td>
-                            <td class="py-4 px-6 text-right font-mono text-slate-300">{{ metrics.mae|floatformat:2 }}</td>
+                            <td class="py-4 px-6 text-right font-mono text-gray-500">{{ metrics.rmse|floatformat:2 }}</td>
+                            <td class="py-4 px-6 text-right font-mono text-gray-500">{{ metrics.mae|floatformat:2 }}</td>
                             <td class="py-4 px-6 text-center">
-                                <span class="w-2 h-2 rounded-full inline-block {% if metrics.rmse < 5000 and metrics.rmse > 0 %}bg-emerald-500{% else %}bg-yellow-500{% endif %} shadow-md"></span>
+                                <span class="w-2.5 h-2.5 rounded-full inline-block {% if metrics.rmse < 5000 and metrics.rmse > 0 %}bg-green-500{% else %}bg-amber-400{% endif %} shadow-sm border border-black/5"></span>
                             </td>
                         </tr>
                         {% endfor %}
@@ -144,51 +143,48 @@
         </div>
 
         <!-- SECTION 5: DRIFT MONITOR -->
-        <div class="glass-card p-8 relative overflow-hidden text-white border-l-4 {% if data_drift and data_drift.drift_detected %}border-red-500{% else %}border-slate-700{% endif %}">
-            {% if data_drift and data_drift.drift_detected %}
-                <div class="absolute inset-0 bg-red-500/5 z-0 pointer-events-none pulse-glow"></div>
-            {% endif %}
+        <div class="clean-card p-6 border border-l-4 {% if data_drift and data_drift.drift_detected %}border-l-amber-400 bg-amber-50/50{% else %}border-l-gray-300{% endif %}">
             
-            <h3 class="text-lg font-bold mb-6 flex items-center relative z-10 {% if data_drift and data_drift.drift_detected %}text-red-400{% else %}text-slate-100{% endif %}">
+            <h3 class="text-lg font-semibold mb-6 flex items-center {% if data_drift and data_drift.drift_detected %}text-amber-600{% else %}text-gray-900{% endif %}">
                 <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
                 Real-time Data Drift Alert
             </h3>
             
-            <div class="relative z-10">
+            <div>
                 {% if data_drift %}
                     {% if data_drift.drift_detected %}
-                    <div class="bg-red-900/30 border border-red-500/50 rounded-xl p-5 mb-6">
+                    <div class="bg-amber-100 border border-amber-300 rounded-lg p-5 mb-6 shadow-sm">
                         <div class="flex items-start">
-                            <svg class="w-8 h-8 text-red-500 mr-4 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-6 h-6 text-amber-500 mr-3 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <div>
-                                <h4 class="text-red-400 font-bold mb-1">Significant Drift Detected</h4>
-                                <p class="text-sm text-red-200/80">The live data distribution has deviated significantly from the training baseline. Model accuracy may be compromised.</p>
+                                <h4 class="text-amber-700 font-semibold mb-1">Significant Drift Detected</h4>
+                                <p class="text-sm text-amber-600">The live data distribution has deviated significantly from the training baseline. Model accuracy may be compromised.</p>
                             </div>
                         </div>
                     </div>
                     {% else %}
-                    <div class="bg-emerald-900/20 border border-emerald-500/30 rounded-xl p-5 mb-6 relative z-10">
+                    <div class="bg-green-50 border border-green-200 rounded-lg p-4 mb-6 shadow-sm">
                         <div class="flex items-center">
-                            <svg class="w-6 h-6 text-emerald-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            <h4 class="text-emerald-400 font-bold">Data Distribution Stable</h4>
+                            <svg class="w-5 h-5 text-green-500 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                            <h4 class="text-green-700 font-medium text-sm">Data Distribution Stable</h4>
                         </div>
                     </div>
                     {% endif %}
                     
                     <div class="grid grid-cols-2 gap-4">
-                        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                            <p class="text-xs text-slate-400 mb-1 uppercase tracking-wider">Monitored Features</p>
-                            <p class="text-xl font-bold text-white">{{ data_drift.features|length }} Total</p>
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 shadow-sm">
+                            <p class="text-xs text-gray-500 mb-1 uppercase tracking-wider font-semibold">Monitored Features</p>
+                            <p class="text-2xl font-bold text-gray-900">{{ data_drift.features|length }} Total</p>
                         </div>
-                        <div class="bg-slate-800/50 rounded-lg p-4 border border-slate-700">
-                            <p class="text-xs text-slate-400 mb-1 uppercase tracking-wider">PSI Avg Score</p>
-                            <p class="text-xl font-bold {% if data_drift.drift_detected %}text-red-400{% else %}text-emerald-400{% endif %}">
+                        <div class="bg-gray-50 rounded-lg p-4 border border-gray-200 shadow-sm">
+                            <p class="text-xs text-gray-500 mb-1 uppercase tracking-wider font-semibold">PSI Avg Score</p>
+                            <p class="text-2xl font-bold {% if data_drift.drift_detected %}text-amber-600{% else %}text-green-600{% endif %}">
                                 {{ data_drift.average_psi|floatformat:2 }}
                             </p>
                         </div>
                     </div>
                 {% else %}
-                    <p class="text-slate-500 italic">Drift analysis reports are currently unavailable. Ensure the validation pipeline has successfully executed recently.</p>
+                    <p class="text-gray-500 text-sm italic">Drift analysis reports are currently unavailable. Ensure the validation pipeline has successfully executed recently.</p>
                 {% endif %}
             </div>
         </div>
@@ -236,18 +232,15 @@
 
                     if(diff > threshold) {
                         signalText.innerText = "BUY";
-                        signalText.className = "text-5xl font-extrabold tracking-tight relative z-10 text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.8)]";
-                        signalGlow.className = "absolute inset-0 opacity-20 pointer-events-none bg-emerald-500 transition-colors duration-1000";
+                        signalText.className = "text-5xl font-bold tracking-tight py-2 text-green-500";
                         signalDesc.innerText = "Target price exceeds actual by " + new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Math.abs(diff));
                     } else if(diff < -threshold) {
                         signalText.innerText = "SELL";
-                        signalText.className = "text-5xl font-extrabold tracking-tight relative z-10 text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)]";
-                        signalGlow.className = "absolute inset-0 opacity-10 pointer-events-none bg-red-500 transition-colors duration-1000";
+                        signalText.className = "text-5xl font-bold tracking-tight py-2 text-red-500";
                         signalDesc.innerText = "Target price falls below actual by " + new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(Math.abs(diff));
                     } else {
                         signalText.innerText = "HOLD";
-                        signalText.className = "text-5xl font-extrabold tracking-tight relative z-10 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)]";
-                        signalGlow.className = "absolute inset-0 opacity-10 pointer-events-none bg-yellow-500 transition-colors duration-1000";
+                        signalText.className = "text-5xl font-bold tracking-tight py-2 text-sky-400";
                         signalDesc.innerText = "Minimal price movement expected. Sideways market trend.";
                     }
                 }
@@ -332,8 +325,8 @@
                         {
                             label: 'Historical Actual',
                             data: historicalData,
-                            borderColor: '#3B82F6', // soft blue
-                            borderWidth: 3,
+                            borderColor: '#38BDF8', // sky blue
+                            borderWidth: 2,
                             tension: 0.4, // spline smooth curve
                             pointRadius: 0,
                             pointHoverRadius: 6,
@@ -342,26 +335,26 @@
                                 const chart = context.chart;
                                 const {ctx, chartArea} = chart;
                                 if (!chartArea) return null;
-                                return getGradient(ctx, chartArea, 'rgba(59,130,246,0.25)', 'rgba(59,130,246,0)');
+                                return getGradient(ctx, chartArea, 'rgba(56,189,248,0.15)', 'rgba(56,189,248,0)');
                             }
                         },
                         {
                             label: 'Forecast Trajectory',
                             data: buildForecastData(activeModel),
-                            borderColor: '#8B5CF6', // purple
-                            borderWidth: 3,
+                            borderColor: '#7DD3FC', // light sky blue
+                            borderWidth: 2,
                             borderDash: [5, 5],
                             tension: 0.4,
-                            pointRadius: 5,
-                            pointBackgroundColor: '#fff',
-                            pointBorderColor: '#8B5CF6',
+                            pointRadius: 4,
+                            pointBackgroundColor: '#FFFFFF',
+                            pointBorderColor: '#7DD3FC',
                             pointBorderWidth: 2,
                             fill: true,
                             backgroundColor: function(context) {
                                 const chart = context.chart;
                                 const {ctx, chartArea} = chart;
                                 if (!chartArea) return null;
-                                return getGradient(ctx, chartArea, 'rgba(139,92,246,0.15)', 'rgba(139,92,246,0)');
+                                return getGradient(ctx, chartArea, 'rgba(125,211,252,0.1)', 'rgba(125,211,252,0)');
                             }
                         }
                     ]
@@ -385,8 +378,8 @@
                         plugins: {
                             legend: { display: false },
                             tooltip: {
-                                backgroundColor: 'rgba(255, 255, 255, 0.95)',
-                                titleColor: '#1F2937',
+                                backgroundColor: '#FFFFFF',
+                                titleColor: '#111827',
                                 bodyColor: '#4B5563',
                                 borderColor: '#E5E7EB',
                                 borderWidth: 1,
@@ -410,7 +403,7 @@
                             y: {
                                 min: minV,
                                 max: maxV,
-                                grid: { color: '#E5E7EB', drawBorder: false }, // Very light #E5E7EB grid
+                                grid: { color: '#F3F4F6', drawBorder: false }, // Light grid
                                 ticks: { color: '#6B7280', font: {family: 'Inter', size: 11}, callback: (v) => '$' + v.toLocaleString() }
                             },
                             x: {

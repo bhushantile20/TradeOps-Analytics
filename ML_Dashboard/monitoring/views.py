@@ -134,7 +134,6 @@ def prediction_ui(request):
     return render(request, 'monitoring/prediction.html', {
         'history': history,
         'chart_history': chart_history,
-        'data_drift': data_drift,
-        'api_url': 'http://127.0.0.1:8001/trigger'
+        'data_drift': data_drift
     })
 

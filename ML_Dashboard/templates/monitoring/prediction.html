@@ -16,17 +16,17 @@
     
     <!-- Drift Alert Panel (if triggered) -->
     {% if data_drift.drift_detected %}
-    <div class="glass-card p-5 border border-red-500/50 shadow-[0_0_20px_rgba(239,68,68,0.15)] bg-red-900/10">
+    <div class="clean-card p-5 border border-amber-200 bg-amber-50">
         <div class="flex items-start space-x-4">
-            <div class="p-2 border border-red-500/30 bg-red-500/10 rounded-lg">
-                <svg class="w-6 h-6 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="p-2 border border-amber-300 bg-amber-100/50 rounded-md shadow-sm">
+                <svg class="w-6 h-6 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
                 </svg>
             </div>
             <div>
-                <h4 class="font-bold text-red-400 text-lg tracking-wide uppercase">- ERROR - [DATA_DRIFT]</h4>
-                <p class="text-slate-300 mt-1 text-sm">Distribution shift detected in input features. Predictive models may suffer from temporal degradation. Retraining advised.</p>
-                <div class="mt-2 text-xs text-slate-500 font-mono">Timestamp Trigger: {% if history %}{{ history.0.timestamp }}{% endif %}</div>
+                <h4 class="font-bold text-amber-700 text-lg tracking-wide uppercase">- WARNING - [DATA_DRIFT]</h4>
+                <p class="text-amber-800 mt-1 text-sm font-medium">Distribution shift detected in input features. Predictive models may suffer from temporal degradation. Retraining advised.</p>
+                <div class="mt-2 text-xs text-amber-600/80 font-mono font-semibold">Timestamp Trigger: {% if history %}{{ history.0.timestamp }}{% endif %}</div>
             </div>
         </div>
     </div>
@@ -35,53 +35,53 @@
     <!-- Top Row: KPI Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Current Price -->
-        <div class="glass-card p-6 border-l-4 border-blue-500 hover:shadow-lg transition-transform text-white">
+        <div class="clean-card p-6 border-l-4 border-sky-400 text-gray-900">
             <div class="flex items-center justify-between mb-4">
-                <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Current Price</span>
-                <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
-                    <svg class="w-4 h-4 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
+                <span class="text-gray-500 text-xs font-bold uppercase tracking-wider">Current Price</span>
+                <div class="w-8 h-8 rounded-md bg-gray-50 border border-gray-200 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path></svg>
                 </div>
             </div>
-            <h3 class="text-3xl font-bold font-mono text-slate-100">
+            <h3 class="text-3xl font-bold font-mono text-gray-900">
                 {% if history %}${{ history.0.actual_price|floatformat:2 }}{% else %}--{% endif %}
             </h3>
         </div>
 
         <!-- Predicted Price -->
-        <div class="glass-card p-6 border-l-4 border-purple-500 hover:shadow-lg transition-transform text-white">
+        <div class="clean-card p-6 border-l-4 border-sky-300 text-gray-900">
             <div class="flex items-center justify-between mb-4">
-                <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Target (1H)</span>
-                <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
-                    <svg class="w-4 h-4 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                <span class="text-gray-500 text-xs font-bold uppercase tracking-wider">Target (1H)</span>
+                <div class="w-8 h-8 rounded-md bg-gray-50 border border-gray-200 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
                 </div>
             </div>
-            <h3 class="text-3xl font-bold font-mono text-purple-400">
+            <h3 class="text-3xl font-bold font-mono text-sky-500">
                 {% if history %}${{ history.0.arima_price|floatformat:2 }}{% else %}--{% endif %}
             </h3>
         </div>
 
         <!-- Confidence Score -->
-        <div class="glass-card p-6 border-l-4 rounded-xl {% if data_drift.drift_detected %}border-red-500{% else %}border-slate-500{% endif %} hover:shadow-lg transition-transform text-white">
+        <div class="clean-card p-6 border-l-4 rounded-xl {% if data_drift.drift_detected %}border-amber-400{% else %}border-gray-200{% endif %} text-gray-900">
             <div class="flex items-center justify-between mb-4">
-                <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Model Confidence</span>
-                <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
-                    <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span class="text-gray-500 text-xs font-bold uppercase tracking-wider">Model Confidence</span>
+                <div class="w-8 h-8 rounded-md bg-gray-50 border border-gray-200 flex items-center justify-center">
+                    <svg class="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
             </div>
-            <h3 class="text-3xl font-bold text-slate-100">
+            <h3 class="text-3xl font-bold text-gray-900">
                 {% if data_drift.drift_detected %}54.2%{% else %}92.8%{% endif %}
             </h3>
         </div>
 
         <!-- System Status -->
-        <div class="glass-card p-6 border-l-4 rounded-xl {% if data_drift.drift_detected %}border-red-500{% else %}border-emerald-500{% endif %} hover:shadow-lg transition-transform text-white">
+        <div class="clean-card p-6 border-l-4 rounded-xl {% if data_drift.drift_detected %}border-amber-400{% else %}border-green-500{% endif %} text-gray-900">
             <div class="flex items-center justify-between mb-4">
-                <span class="text-slate-400 text-xs font-semibold uppercase tracking-wider">Drift Status</span>
-                <div class="w-8 h-8 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center">
-                    <svg class="w-4 h-4 {% if data_drift.drift_detected %}text-red-400{% else %}text-emerald-400{% endif %}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                <span class="text-gray-500 text-xs font-bold uppercase tracking-wider">Drift Status</span>
+                <div class="w-8 h-8 rounded-md bg-gray-50 border border-gray-200 flex items-center justify-center">
+                    <svg class="w-4 h-4 {% if data_drift.drift_detected %}text-amber-500{% else %}text-green-500{% endif %}" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                 </div>
             </div>
-            <h3 class="text-2xl font-bold {% if data_drift.drift_detected %}text-red-400{% else %}text-emerald-400{% endif %}">
+            <h3 class="text-2xl font-bold {% if data_drift.drift_detected %}text-amber-600{% else %}text-green-600{% endif %}">
                 {% if data_drift.drift_detected %}Critical{% else %}Healthy{% endif %}
             </h3>
         </div>
@@ -91,13 +91,13 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
         
         <!-- Plotly Chart Area -->
-        <div class="lg:col-span-2 glass-card p-6 flex flex-col bg-[#0B1220]">
+        <div class="lg:col-span-2 clean-card p-6 flex flex-col bg-white">
             <div class="flex justify-between items-center mb-6">
                 <div>
-                    <h3 class="text-lg font-bold text-white">Price Action & AI Forecast</h3>
-                    <p class="text-xs text-slate-500">Overlaying time series actuals against algorithmic expectations (ARIMA Output)</p>
+                    <h3 class="text-lg font-semibold text-gray-900">Price Action & AI Forecast</h3>
+                    <p class="text-xs text-gray-500">Overlaying time series actuals against algorithmic expectations (ARIMA Output)</p>
                 </div>
-                <span class="px-3 py-1 rounded-full border border-slate-700 bg-slate-800/80 text-xs font-mono text-slate-300">BTC/USDT</span>
+                <span class="px-3 py-1 rounded-md border border-gray-200 bg-gray-50 text-xs font-mono font-medium text-gray-600 shadow-sm">BTC/USDT</span>
             </div>
             <div class="flex-1 w-full relative min-h-[450px]">
                 <div id="plotlyChart" class="absolute inset-0"></div>
@@ -107,23 +107,22 @@
         <!-- Trade Signal & Trigger Panel -->
         <div class="lg:col-span-1 space-y-6 flex flex-col">
             <!-- Signal Card -->
-            <div id="tradeSignalCard" class="glass-card p-8 flex-1 flex flex-col items-center justify-center text-center relative overflow-hidden text-white border border-slate-700">
-                <div class="absolute inset-0 opacity-10 pointer-events-none transition-colors duration-1000" id="signalBgGlow"></div>
-                <p class="text-slate-400 text-sm uppercase tracking-widest font-semibold mb-6 relative z-10">System Consensus</p>
-                <h2 id="signalText" class="text-5xl font-extrabold mb-4 tracking-widest relative z-10">...</h2>
-                <div class="text-sm font-medium text-slate-400 relative z-10 px-4" id="signalReason">Awaiting engine data...</div>
+            <div id="tradeSignalCard" class="clean-card p-8 flex-1 flex flex-col items-center justify-center text-center text-gray-900 shadow-sm border-t-4 border-gray-200">
+                <p class="text-gray-500 text-xs uppercase tracking-widest font-semibold mb-6">System Consensus</p>
+                <h2 id="signalText" class="text-5xl font-bold mb-4 tracking-widest">...</h2>
+                <div class="text-sm font-medium text-gray-500 px-4" id="signalReason">Awaiting engine data...</div>
             </div>
 
             <!-- Manual Trigger Panel -->
-            <div class="glass-card p-6 bg-slate-800/30 border border-slate-700/50 text-white">
-                <h3 class="text-lg font-bold mb-2 flex items-center">
-                    <svg class="w-5 h-5 mr-2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
+            <div class="clean-card p-6 text-gray-900">
+                <h3 class="text-lg font-semibold mb-2 flex items-center relative">
+                    <svg class="w-5 h-5 mr-2 text-sky-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"></path></svg>
                     Manual Override
                 </h3>
-                <p class="text-slate-400 text-xs mb-6">Force pipeline execution independently of the airflow schedule. Will regenerate fresh inferences and overwrite tracking UI log.</p>
+                <p class="text-gray-500 text-xs mb-6 font-medium">Force pipeline execution independently of the airflow schedule. Will regenerate fresh inferences and overwrite tracking UI log.</p>
                 <form id="predictionForm">
                     <button type="submit" id="predictBtn"
-                        class="w-full py-3.5 rounded-lg bg-blue-600 hover:bg-blue-500 text-white font-bold transition-all shadow-md hover:shadow-[0_0_15px_rgba(59,130,246,0.5)] active:scale-[0.98] flex items-center justify-center space-x-2">
+                        class="w-full py-3 rounded-md bg-sky-400 text-white font-semibold shadow-sm hover:bg-sky-500 transition-colors active:bg-sky-600 flex items-center justify-center space-x-2 border border-transparent">
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
                         </svg>
@@ -160,14 +159,14 @@
             let prices = chartData.map(d => parseFloat(d.actual_price));
             let preds = chartData.map(d => parseFloat(d.arima_price)); // Using ARIMA as baseline here
             
-            // Re-render plotly graphic with #0B1220 aesthetics
+            // Re-render plotly graphic with white/sky blue aesthetics
             var tracePrice = {
                 x: dates,
                 y: prices,
                 type: 'scatter',
                 mode: 'lines',
                 name: 'Historical Price',
-                line: {color: '#3B82F6', width: 2.5, shape: 'spline', smoothing: 1.3}, 
+                line: {color: '#38BDF8', width: 2.5, shape: 'spline', smoothing: 1.3}, 
             };
 
             var tracePred = {
@@ -176,12 +175,12 @@
                 type: 'scatter',
                 mode: 'lines',
                 name: 'AI Target Output',
-                line: {color: '#8B5CF6', width: 2.5, dash: 'dash', shape: 'spline', smoothing: 1.3}
+                line: {color: '#7DD3FC', width: 2.5, dash: 'dash', shape: 'spline', smoothing: 1.3}
             };
 
             var layout = {
-                plot_bgcolor: 'rgba(11, 18, 32, 0)', // match parent
-                paper_bgcolor: 'rgba(11, 18, 32, 0)', 
+                plot_bgcolor: 'rgba(255, 255, 255, 1)', 
+                paper_bgcolor: 'rgba(255, 255, 255, 1)', 
                 font: {color: '#6B7280', family: 'Inter, sans-serif'},
                 xaxis: { 
                     showgrid: false, 
@@ -189,9 +188,9 @@
                 },
                 yaxis: { 
                     showgrid: true, 
-                    gridcolor: 'rgba(255,255,255,0.05)', 
+                    gridcolor: '#F3F4F6', 
                     zeroline: false,
-                    tickfont: { color: '#9CA3AF' } 
+                    tickfont: { color: '#6B7280' } 
                 },
                 margin: { l: 40, r: 20, t: 30, b: 30 },
                 showlegend: true,
@@ -201,7 +200,7 @@
                     y: 1.02,
                     xanchor: "right",
                     x: 1,
-                    font: { color: '#D1D5DB' }
+                    font: { color: '#6B7280' }
                 },
                 hovermode: 'x unified'
             };
@@ -217,7 +216,6 @@
             const signalCard = document.getElementById("tradeSignalCard");
             const signalText = document.getElementById("signalText");
             const signalReason = document.getElementById("signalReason");
-            const signalGlow = document.getElementById("signalBgGlow");
 
             if (lastPred && lastActual) {
                 let diff = lastPred - lastActual;
@@ -225,21 +223,18 @@
                 
                 if (pct > 0.05) { // tuned for sensitivity 0.05%
                     signalText.innerText = "BUY";
-                    signalText.className = "text-5xl font-extrabold mb-4 text-emerald-400 drop-shadow-[0_0_15px_rgba(52,211,153,0.8)] tracking-widest relative z-10";
-                    signalCard.className = "glass-card p-8 flex-1 flex flex-col items-center justify-center text-center relative overflow-hidden text-white border border-emerald-500/30";
-                    signalGlow.className = "absolute inset-0 opacity-10 pointer-events-none transition-colors duration-1000 bg-emerald-500";
+                    signalText.className = "text-5xl font-bold mb-4 text-green-500 tracking-widest";
+                    signalCard.className = "clean-card p-8 flex-1 flex flex-col items-center justify-center text-center text-gray-900 border-t-4 border-green-500";
                     signalReason.innerText = `Forecast projects +${pct.toFixed(2)}% bullish upside movement.`;
                 } else if (pct < -0.05) {
                     signalText.innerText = "SELL";
-                    signalText.className = "text-5xl font-extrabold mb-4 text-red-500 drop-shadow-[0_0_15px_rgba(239,68,68,0.8)] tracking-widest relative z-10";
-                    signalCard.className = "glass-card p-8 flex-1 flex flex-col items-center justify-center text-center relative overflow-hidden text-white border border-red-500/30";
-                    signalGlow.className = "absolute inset-0 opacity-10 pointer-events-none transition-colors duration-1000 bg-red-500";
+                    signalText.className = "text-5xl font-bold mb-4 text-red-500 tracking-widest";
+                    signalCard.className = "clean-card p-8 flex-1 flex flex-col items-center justify-center text-center text-gray-900 border-t-4 border-red-500";
                     signalReason.innerText = `Forecast projects ${pct.toFixed(2)}% bearish downside risk.`;
                 } else {
                     signalText.innerText = "HOLD";
-                    signalText.className = "text-5xl font-extrabold mb-4 text-yellow-400 drop-shadow-[0_0_15px_rgba(250,204,21,0.8)] tracking-widest relative z-10";
-                    signalCard.className = "glass-card p-8 flex-1 flex flex-col items-center justify-center text-center relative overflow-hidden text-white border border-yellow-500/30";
-                    signalGlow.className = "absolute inset-0 opacity-10 pointer-events-none transition-colors duration-1000 bg-yellow-400";
+                    signalText.className = "text-5xl font-bold mb-4 text-sky-400 tracking-widest";
+                    signalCard.className = "clean-card p-8 flex-1 flex flex-col items-center justify-center text-center text-gray-900 border-t-4 border-gray-200";
                     signalReason.innerText = `Market consolidation expected. Minimal variance.`;
                 }
             }
@@ -255,7 +250,7 @@
         btn.innerHTML = '<span class="animate-spin rounded-full h-5 w-5 border-t-2 border-b-2 border-white inline-block mr-2"></span> <span class="text-white">Awaiting Tensor Output...</span>';
 
         try {
-            const response = await fetch('{{ api_url }}', {
+            const response = await fetch('{{ API_BASE_URL }}/trigger', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' }
             });

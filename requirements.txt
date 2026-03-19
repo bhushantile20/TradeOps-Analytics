@@ -1,3 +1,5 @@
+
+
 pandas
 ccxt
 pandas_ta
@@ -16,3 +18,5 @@ django
 scipy
 streamlit
 plotly
+gunicorn
+whitenoise

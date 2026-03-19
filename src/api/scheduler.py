@@ -9,7 +9,7 @@ def trigger_prediction():
     print(f"[{datetime.now()}] Triggering automated inference...")
     try:
         # Use the local FastAPI endpoint
-        response = requests.post("http://127.0.0.1:8000/trigger", timeout=60)
+        response = requests.post("http://127.0.0.1:8001/trigger", timeout=60)
         if response.status_code == 200:
             print(f"[{datetime.now()}] Success: {response.json().get('status')}")
         else:

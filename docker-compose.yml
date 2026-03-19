@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  fastapi-service:
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
+    restart: always
+    expose:
+      - "8000"
+    volumes:
+      - ./logs:/app/logs
+      - ./models:/app/models
+
+  django-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile.django
+    restart: always
+    environment:
+      - API_BASE_URL=https://tradeopsanalytics.bhushantile.online/api
+    expose:
+      - "8000"
+    volumes:
+      - ./logs:/app/logs
+      - ./reports:/app/reports
+
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    depends_on:
+      - fastapi-service
+      - django-dashboard
